@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Letter</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            animation: fadeIn 2s ease-in;
+            flex-direction: column;
+            padding: 10px;
+        }
+        .envelope {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 400px;
+            border: 5px solid #ff4d4d;
+            position: relative;
+            animation: glow 2s infinite alternate;
+            z-index: 10;
+        }
+        h1 {
+            color: #ff4d4d;
+            font-size: 1.8em;
+        }
+        p {
+            font-size: 1em;
+            color: #333;
+        }
+        button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 0 10px #ff4d4d;
+            transition: transform 0.2s ease-in-out;
+            font-size: 1em;
+        }
+        button:hover {
+            background-color: #cc0000;
+            transform: scale(1.1);
+        }
+        #hiddenMessage {
+            display: none;
+            font-weight: bold;
+            color: #ff4d4d;
+            margin-top: 15px;
+            animation: fadeIn 1.5s ease-in;
+        }
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: red;
+            bottom: 5vh;
+            opacity: 1;
+            animation: floatUp 4s linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+        .burst-heart {
+            position: absolute;
+            font-size: 15px;
+            color: red;
+            opacity: 1;
+            animation: burst 1s ease-out forwards;
+        }
+        @keyframes burst {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(2) translate(var(--x), var(--y)); }
+        }
+        #heartContainer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        @media (max-width: 480px) {
+            .envelope {
+                width: 90%;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            button {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope">
+        <h1>My Langga</h1>
+        <p>Even miles apart, my heart beats only for you. You are my joy, my comfort, my forever. I cherish every moment we share and look forward to the day we’re together again. Until then, feel my love in every word, in every thought. ❤️</p>
+        <button onclick="toggleMessage()">Click for a Surprise</button>
+        <p id="hiddenMessage">I love you endlessly! ❤️</p>
+    </div>
+    <div id="heartContainer"></div>
+    <script>
+        function toggleMessage() {
+            let message = document.getElementById("hiddenMessage");
+            let button = document.querySelector("button");
+            
+            if (message.style.display === "none" || message.style.display === "") {
+                message.style.display = "block";
+                button.textContent = "Hide Surprise";
+                startHearts();
+            } else {
+                message.style.display = "none";
+                button.textContent = "Click for a Surprise";
+            }
+        }
+
+        function startHearts() {
+            setInterval(() => {
+                let heartContainer = document.getElementById("heartContainer");
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heartContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    burstHeart(heart);
+                }, Math.random() * 4000 + 2000);
+            }, 300);
+        }
+
+        function burstHeart(heart) {
+            for (let i = 0; i < 5; i++) {
+                let burst = document.createElement("div");
+                burst.classList.add("burst-heart");
+                burst.innerHTML = "❤️";
+                burst.style.setProperty('--x', (Math.random() * 100 - 50) + 'px');
+                burst.style.setProperty('--y', (Math.random() * 100 - 50) + 'px');
+                burst.style.left = heart.style.left;
+                burst.style.bottom = heart.style.bottom;
+                document.getElementById("heartContainer").appendChild(burst);
+            }
+            heart.remove();
+        }
+    </script>
+</body>
+</html>
